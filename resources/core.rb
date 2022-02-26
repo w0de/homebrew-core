@@ -124,6 +124,7 @@ action_class do
     directory "homebrew's root" do
       path Homebrew.root
       recursive true
+      only_if { Homebrew.arm64? }
       action :delete
     end
   end
