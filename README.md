@@ -17,7 +17,7 @@ Homebrew Core solves the install challenge as simply as possible. It also includ
 
 - `homebrew_core` wraps `homebrew_update`, another standard chef resource.
 
-- The `homebrew_package` understands versions, and can install, uninstall, and upgrade historical brew packages. This feature brought to you courtesy of `brew --extract`.
+- `homebrew_package` understands versions, and can install, uninstall, and upgrade historical brew packages. This feature brought to you courtesy of `brew --extract`.
 
 - A `:purge` action now exists.
 
