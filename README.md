@@ -1,6 +1,11 @@
-# Homebrew Core Cookbook
+## Homebrew Core Cookbook
 
 [![License](https://img.shields.io/badge/License-Apache%202.0-green.svg)](https://opensource.org/licenses/Apache-2.0)
+
+##### Requirements
+
+- macOS
+- Chef 17+
 
 This cookbook installs and updates [Homebrew](http://brew.sh/) and applies several patches to the core chef homebrew resources.
 
@@ -22,20 +27,15 @@ Homebrew Core solves the install challenge as simply as possible. It also includ
 
 - Monkey patched minor bugfixes, QoL & style changes, etc - often opinionated. Perhaps often wrongheaded. Caveat emptor.
 
-### Requirements
-
-- macOS
-- Chef 17+
-
 ## Resource: homebrew_core
 
-#### Actions
+##### Actions
 
 - `:install` - install homebrew
 - `:upgrade` - install homebrew if missing, periodically `brew update` via `homebrew_update` resource
 - `:uninstall` - remove homebrew, its packages and unique directories
 
-#### Properties
+##### Properties
 
 - `owner` - String - homebrew owner's macOS account. Default: `Homebrew.owner`.
 - `force` - Bool - force install or uninstall homebrew, regardless of state.
@@ -44,7 +44,7 @@ Homebrew Core solves the install challenge as simply as possible. It also includ
 - `standard_packages` - Array - homebrew packages to install/upgrade alongside homebrew.
 - `brew_update_frequency` - Integer - seconds between periodic homebrew updates. Values less than the interval between chef runs will resolve to the latter. Ignored on all but the `:upgrade` action. Default: 86400s (1 day).
 
-#### Attributes
+### Attributes
 
 ```ruby
 default["homebrew-core"] = {
@@ -76,7 +76,7 @@ default["homebrew-core"] = {
 }
 ```
 
-#### Recipes
+### Recipes
 
 ##### `default`
 
@@ -86,29 +86,29 @@ Runs `homebrew_core` with `:upgrade` action.
 
 Adds custom formulae to the local homebrew-cask tap. Allows adding arbitrary homebrew packages to an install. See `files/Formula/README.md`.
 
-# Usage
+## Usage
 
 Works on macOS only, naturally.
 
-## homebrew_core
+### homebrew_core
 
 For the simplest use, place "recipe[homebrew-core]" anywhere in your nodes' run list. You may also use the `homebrew_core` resource from any other recipe.
 
 Simple package installs are easiest if they are included in `standard_packages`. Otherwise, ensure your `homebrew_packages` executions occur after `homebrew_core` converges.
 
-### `:install`
+#### `:install`
 
 Installs cli tools, homebrew, then `standard_packages`. If homebrew is already installed, no action is taken, and core packages will not be installed.
 
 Operator must define `["homebrew-core"]["install"]["url"]`.
 
-### `:upgrade`
+#### `:upgrade`
 
 If the periodic `brew_update_frequency` has not expired since last logged update, no action taken.
 
 Otherwise, installs/updates cli tools, homebrew, then `standard_packages`. If homebrew is already installed, installs/updates cli tools, installs/updates packages.
 
-##### Wraps `homebrew_update`
+#### About `homebrew_update`
 
 Periodic updates are achieved using the standard chef resource [`homebrew_update`](https://docs.chef.io/resources/homebrew_update/).
 
@@ -116,20 +116,32 @@ The `brew_update_frequency` param is passed directly to updates's `frequency`. T
 
 If you wish to execute non-periodically - on every chef run - simply set this frequency lower than your nodes' chef-client execution period.
 
-### `:uninstall`
+#### `:uninstall`
 
-Removes brew and brew packages with their official uninstall script. Operator must define `["homebrew-core"]["uninstall"]` values. Deletes all paths their uninstall script suggests for optional deletion.
+Removes brew and brew packages with their official uninstall script. Deletes all paths their uninstall script suggests for optional deletion.
 
-## homebrew_package
+Operator must define `["homebrew-core"]["uninstall"]["url"]`.
 
-Install, upgrade, and uninstall now support a `version` parameter. Historical brew packages in the `homebrew/cask` tap may be installed. Optionally, you can specify the version in the package name in the standard homebrew pattern: `package@<version>`.
+### homebrew_package
 
-#### Examples
+Install, upgrade, and uninstall now support a `version` parameter. Historical brew packages in the `homebrew/cask` tap may be installed.
+
+Optionally, one may specify the version in the package name instead of the param, using brew's pattern: `package@<version>`.
+
+### Examples
 
 ```ruby
 homebrew_core "Delete homebrew" do
   action                      :uninstall
   force                       true
+end
+
+# Installs older 2.2.42 awscli build.
+# Verified this version's formula exists using
+# https://github.com/Homebrew/homebrew-core/commits/master/Formula/awscli.rb
+homebrew_package "awscli" do
+  action :upgrade
+  version "2.2.42"
 end
 
 homebrew_core "Install/update homebrew, depedencies, and base packages" do
