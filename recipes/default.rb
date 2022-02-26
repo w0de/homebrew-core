@@ -25,6 +25,6 @@ homebrew_core "Install/update homebrew, depedencies, and base packages" do
   force                       false
   xcode_cli_tools             true
   standard_packages           %w(awscli@2 aws-okta git dory)
-  brew_update_frequency       10
+  brew_update_frequency       86400
   only_if                     { macos? }
 end
