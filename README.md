@@ -13,13 +13,13 @@ This cookbook installs and updates [Homebrew](http://brew.sh/) and applies sever
 
 Homebrew Core solves the install challenge as simply as possible. It also includes several conveniences specific to my use cases.
 
-- Xcode cli install/update is automatically included prior to brew install or update. Uses `build_essential` core resource. A required but emphemeral `/etc/sudoers` edit is performed.
+- Xcode cli install/update is automatically included prior to brew install or update. Uses `build_essential` standard resource. A required but emphemeral `/etc/sudoers` edit is performed.
 
-- `homebrew_core` wraps `homebrew_update`, a standard chef resource.
+- `homebrew_core` wraps `homebrew_update`, another standard chef resource.
 
 - The `homebrew_package` understands versions, and can install, uninstall, and upgrade historical brew packages. This feature brought to you courtesy of `brew --extract`.
 
-- A `:purge` action now exists. Simply adds `--force` to uninstall, though.
+- A `:purge` action now exists.
 
 - A recipe, `formula.rb`, shims custom formula files into locally tapped casks.
 
