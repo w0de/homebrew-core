@@ -188,15 +188,17 @@ Recipe: homebrew-core::default
 
 ## License and Authors
 
-This cookbook is maintained by Harry Seeber. Large parts were originally forked from open sourcce code maintained by sos-chefs and chef. The original author, maintainer and copyright holder of much derived work is Graeme Mathieson.
+This cookbook is maintained by Harry Seeber. Large parts have been derived from open source work maintained by both sous-chefs and chef.
 
 All code is licensed under the Apache License version 2.
 
 [Original blog post by Graeme](https://woss.name/articles/converging-your-home-directory-with-chef/)
 
-Author:: Graeme Mathieson ([mathie@woss.name](mailto:mathie@woss.name))
-Author:: Joshua Timberman ([joshua@chef.io](mailto:joshua@chef.io))
-Author:: Harry Seeber ([git@sysop.ooo](mailto:git@sysop.ooo))
+Authors
+
+- Graeme Mathieson ([mathie@woss.name](mailto:mathie@woss.name))
+- Joshua Timberman ([joshua@chef.io](mailto:joshua@chef.io))
+- Harry Seeber ([git@sysop.ooo](mailto:git@sysop.ooo))
 
 ```text
 Copyright:: 2011, Graeme Mathieson
