@@ -19,8 +19,6 @@ Homebrew Core solves the install challenge as simply as possible. It also includ
 
 - The `homebrew_package` understands versions, and can install, uninstall, and upgrade historical brew packages. This feature brought to you courtesy of `brew --extract`.
 
-- The `:uninstall` action can also now be versioned.
-
 - A `:purge` action now exists. Simply adds `--force` to uninstall, though.
 
 - A recipe, `formula.rb`, shims custom formula files into locally tapped casks.
