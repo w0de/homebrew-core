@@ -22,16 +22,19 @@
 
 return unless macos? && Homebrew.exists?
 
-tap = ::File.join(Homebrew.taps, "homebrew/homebrew-cask/Formula")
+formula_cache = ::File.join(Chef::Config[:file_cache_path], "homebrew_custom_formulae.json")
+tap = ::File.join(Homebrew.root, "Library/Taps/homebrew/homebrew-cask/Formula")
 
-previous = if ::File.exists?(Homebrew.formula_cache)
-  Chef::JSONCompat.parse(::File.read(Homebrew.formula_cache))
+previous = if ::File.exists?(formula_cache)
+  Chef::JSONCompat.parse(::File.read(formula_cache))
 else
   []
 end
 
 defined = run_context.cookbook_collection["homebrew-core"].manifest_records_by_path.map do |path, _|
-  ::File.basename(path).gsub(".rb", "") if /files\/Formula\/[@\d\.\-\w]*\.rb/.match?(path)
+  if /files\/Formula\/[@\d\.\-\w]*\.rb/.match?(path)
+    ::File.basename(path).gsub(".rb", "")
+  end
 end.compact
 
 managed = defined.uniq & (node["homebrew-core"]["custom-formulae"] || []).uniq
@@ -48,7 +51,7 @@ removed.each do |formula|
   end
 end
 
-file Homebrew.formula_cache do
+file formula_cache do
   owner "root"
   group "wheel"
   content Chef::JSONCompat.to_json_pretty(managed.sort)
