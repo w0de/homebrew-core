@@ -1,0 +1,11 @@
+name             'homebrew-core'
+maintainer       'Harry Seeber'
+maintainer_email 'git@sysop.ooo'
+license          'Apache-2.0'
+description      'Installs Homebrew & provides several patches for upstream homebrew resources.'
+version          '0.0.1'
+supports         'macos'
+
+source_url 'https://github.com/w0de/homebrew-core'
+issues_url 'https://github.com/w0de/homebrew-core/issues'
+chef_version '>= 17'
